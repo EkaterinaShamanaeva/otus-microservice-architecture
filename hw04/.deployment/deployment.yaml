@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: otus-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: otus-service
+  template:
+    metadata:
+      labels:
+        app: otus-service
+    spec:
+      containers:
+      - name: otus-service
+        image: katyas3357536/otus-app:0.0.2
+        ports:
+        - containerPort: 8020
+        env:
+          - name: DB_HOST
+            valueFrom:
+              secretKeyRef:
+                name: db-secrets
+                key: db-host
+          - name: DB_PORT
+            valueFrom:
+              secretKeyRef:
+                name: db-secrets
+                key: db-port
+          - name: DB_USER
+            valueFrom:
+              secretKeyRef:
+                name: db-secrets
+                key: db-user
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: db-secrets
+                key: db-password
+          - name: DB_NAME
+            valueFrom:
+              secretKeyRef:
+                name: db-secrets
+                key: db-name
+        livenessProbe:
+          httpGet:
+            path: /health/
+            port: 8020
+          initialDelaySeconds: 3
+          periodSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /health/
+            port: 8020
+          initialDelaySeconds: 3
+          periodSeconds: 5
