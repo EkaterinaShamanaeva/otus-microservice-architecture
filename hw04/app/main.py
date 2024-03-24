@@ -20,7 +20,7 @@ def create_user(user: UserCreate, session: Session = Depends(get_db)):
         user = UserCRUD(session).create_user(name=user.name, email=user.email)
         return user
     except CRUDError as e:
-        raise HTTPException(status_code=400, detail=str(e))
+        raise HTTPException(status_code=400, detail=e.msg)
 
 
 @app.get("/users/")
@@ -45,7 +45,7 @@ def update_user(user_id: int, user: UserCreate, session: Session = Depends(get_d
     except UserNotFoundError as e:
         raise HTTPException(status_code=404, detail="User not found")
     except CRUDError as e:
-        raise HTTPException(status_code=400, detail=str(e))
+        raise HTTPException(status_code=400, detail=e.msg)
 
 
 @app.delete("/users/{user_id}")
@@ -56,4 +56,4 @@ def delete_user(user_id: int, session: Session = Depends(get_db)):
     except UserNotFoundError as e:
         raise HTTPException(status_code=404, detail="User not found")
     except CRUDError as e:
-        raise HTTPException(status_code=400, detail=str(e))
+        raise HTTPException(status_code=400, detail=e.msg)

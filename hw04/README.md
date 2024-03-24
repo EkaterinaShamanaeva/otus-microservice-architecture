@@ -5,7 +5,7 @@
     ```bash
     minikube start
     ```
-- Установить PostgreSQL через Helm и создать БД postgres с юзером postgres и паролем pgpass:
+- Установить PostgreSQL через Helm и создать БД *postgres* с юзером *postgres* и паролем *pgpass*:
     ```bash
     helm install mypostgresql oci://registry-1.docker.io/bitnamicharts/postgresql --set auth.postgresPassword=pgpass
     ```

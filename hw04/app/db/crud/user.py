@@ -18,7 +18,7 @@ class UserCRUD:
             return user
         except SQLAlchemyError as e:
             self.session.rollback()
-            raise CRUDError
+            raise CRUDError(message="Failed to create user", e=e)
 
     def get_user(self, user_id: int):
         user = self.session.query(User).filter(User.id == user_id).first()
@@ -40,7 +40,7 @@ class UserCRUD:
             return user
         except SQLAlchemyError as e:
             self.session.rollback()
-            raise CRUDError
+            raise CRUDError(message="Failed to update user", e=e)
 
     def delete_user(self, user_id: int):
         user = self.get_user(user_id=user_id)
@@ -51,4 +51,4 @@ class UserCRUD:
             self.session.commit()
         except SQLAlchemyError as e:
             self.session.rollback()
-            raise CRUDError
+            raise CRUDError(message="Failed to delete user", e=e)

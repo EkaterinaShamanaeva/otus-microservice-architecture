@@ -1,27 +1,6 @@
 version: '3.9'
 
 services:
-  app:
-    container_name: otus-app
-    build:
-      context: .
-      dockerfile: Dockerfile
-    env_file: .env
-    image: otus-app
-#    restart: unless-stopped
-    healthcheck:
-      test: curl -f http://0.0.0.0:8020/health/
-      interval: 10s
-      timeout: 5s
-      retries: 3
-    ports:
-      - "8020:8020"
-    depends_on:
-      db:
-        condition: service_healthy
-    networks:
-      - otus
-
   db:
     image: postgres:latest
     environment:
@@ -35,8 +14,22 @@ services:
       interval: 10s
       timeout: 5s
       retries: 3
-    networks:
-      - otus
 
-networks:
-  otus:
+  app:
+    container_name: otus-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file: .env
+    image: otus-app
+    restart: unless-stopped
+    healthcheck:
+      test: curl -f http://0.0.0.0:8020/health/
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    ports:
+      - "8020:8020"
+    depends_on:
+      db:
+        condition: service_healthy
