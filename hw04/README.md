@@ -27,6 +27,9 @@
     ```
 - Перейти в браузере по адресу http://arch.homework/health или http://arch.homework/docs (Swagger). Примеры работы приложения представлены в /examples.
 
+### Примечание
+Запуск команды выполнения первоначальных миграций не требуется, так как создание таблицы в БД настроено при запуске сервиса (через SQLAlchemy).
+
 ### Возникшие ошибки
 sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) could not translate host name "mypostgresql" to address: Temporary failure in name resolution
 
